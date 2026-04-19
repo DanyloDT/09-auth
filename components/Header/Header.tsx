@@ -14,11 +14,6 @@ const Header = () => {
               Home
             </Link>
           </li>
-          <li>
-            <Link className={css.headerLink} href="/notes/filter/all">
-              Notes
-            </Link>
-          </li>
           <AuthNavigation />
         </ul>
       </nav>

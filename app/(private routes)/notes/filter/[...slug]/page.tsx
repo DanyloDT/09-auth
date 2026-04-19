@@ -1,4 +1,3 @@
-import { fetchNotes } from '@/lib/api/clientApi';
 import NotesClient from './Notes.client';
 import {
   dehydrate,
@@ -6,6 +5,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import { Metadata } from 'next';
+import { fetchNotesServer } from '@/lib/api/serverApi';
 
 type Props = {
   params: Promise<{ slug: string[] }>;
@@ -14,9 +14,6 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const filter = slug[0];
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-  console.log(baseUrl);
 
   return {
     title: `Notes filtered by ${filter} | NoteHub`,
@@ -24,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `Notes filtered by ${filter}`,
       description: `Viewing notes filtered by ${filter}`,
-      url: `http://localhost:3000/notes/filter/${filter}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/notes/filter/${filter}`,
       images: [
         {
           url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
@@ -39,11 +36,13 @@ const NotesByCategory = async ({ params }: Props) => {
   const queryClient = new QueryClient();
   const tag = slug[0] === 'all' ? undefined : slug[0];
 
-  console.log(tag);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  console.log(baseUrl);
 
   await queryClient.prefetchQuery({
     queryKey: ['notes', 1, '', tag],
-    queryFn: () => fetchNotes({ page: 1, perPage: 12, search: '', tag }),
+    queryFn: () => fetchNotesServer({ page: 1, perPage: 12, search: '', tag }),
   });
 
   return (

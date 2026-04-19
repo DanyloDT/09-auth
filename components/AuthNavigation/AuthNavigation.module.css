@@ -1,17 +1,21 @@
 .userEmail {
-  color: white;
+  color: rgb(35, 198, 234);
+  text-decoration: underline;
+  margin: 0;
   margin-right: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 1.5rem;
 }
 
 .logoutButton {
   background: transparent;
-  border: 1px solid white;
+  border: 2px solid white;
   color: white;
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
+
+  font-weight: bold;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
@@ -30,7 +34,8 @@
 .navigationLink {
   text-decoration: none;
   color: white;
-  font-size: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .navigationLink:hover {

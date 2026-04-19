@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -13,6 +14,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
+  // metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
   title: 'NoteHub',
   description: 'Manage your notes easily with NoteHub app',
   openGraph: {
@@ -38,12 +40,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.variable}>
         <TanStackProvider>
-          <Header />
+          <AuthProvider>
+            <Header />
 
-          {children}
-          {modal}
+            {children}
+            {modal}
 
-          <Footer />
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>

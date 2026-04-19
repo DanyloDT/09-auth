@@ -2,21 +2,44 @@
 import Link from 'next/link';
 import css from './AuthNavigation.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
+import { useRouter } from 'next/navigation';
+import { logout } from '@/lib/api/clientApi';
 
 const AuthNavigation = () => {
-    const { isAuthenticated, user } = useAuthStore();
-    
-     const handleLogout = () => {};
+  const router = useRouter();
+  const { isAuthenticated, user } = useAuthStore();
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      clearAuth();
+      router.replace('/sign-in');
+    }
+  };
+
   return isAuthenticated ? (
     <>
-      <li className={css.navigationItem}>
+      <li>
+        <Link className={css.navigationLink} href="/notes/filter/all">
+          Notes
+        </Link>
+      </li>
+      <li>
         <Link href="/profile" prefetch={false} className={css.navigationLink}>
           Profile
         </Link>
       </li>
       <li className={css.navigationItem}>
-        <p className={css.userEmail}>{user?.email}</p>
-        <button className={css.logoutButton} onClick={handleLogout}>Logout</button>
+        <p className={css.userEmail}>{user?.username ?? 'User'}</p>
+        <button
+          type="button"
+          className={css.logoutButton}
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </li>
     </>
   ) : (
