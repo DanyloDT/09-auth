@@ -34,7 +34,7 @@ const EditProfilePage = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    setUserData((prev) => (prev ? value : prev));
+    setUserData(value);
   };
 
   const handleSaveUser = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -89,7 +89,7 @@ const EditProfilePage = () => {
               id="username"
               name="username"
               type="text"
-              value={user?.username ?? '-'}
+              value={userData ?? '-'}
               className={css.input}
               onChange={handleInputChange}
             />
