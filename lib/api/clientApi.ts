@@ -44,7 +44,7 @@ export const deleteNote = async (id: string): Promise<Note> => {
 export type RegisterRequest = {
   email: string;
   password: string;
-  userName: string;
+  username: string;
 };
 
 export const register = async (data: RegisterRequest) => {
@@ -81,8 +81,8 @@ export const getMe = async (): Promise<User> => {
   return data;
 };
 
-export const updateMe = async (user: Partial<User>): Promise<User> => {
-  const { data } = await nextServer.patch<User>('/users/me', user);
+export const updateMe = async (username: string): Promise<User> => {
+  const { data } = await nextServer.patch<User>('/users/me', username);
 
   return data;
 };
