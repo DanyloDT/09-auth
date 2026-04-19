@@ -1,13 +1,12 @@
 'use client';
 
-import Image from 'next/image';
-import css from './EditProfilePage.module.css';
-// import { useAuthStore } from '@/lib/store/authStore';
 import { useEffect, useState } from 'react';
 import { getMe, updateMe } from '@/lib/api/clientApi';
 import { User } from '@/types/user';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
+import Image from 'next/image';
+import css from './EditProfilePage.module.css';
 
 const EditProfilePage = () => {
   const router = useRouter();
@@ -54,7 +53,6 @@ const EditProfilePage = () => {
 
       const updatedUser = await updateMe({
         username: userData.username,
-        email: userData.email,
       });
 
       setUser(updatedUser);
@@ -67,7 +65,7 @@ const EditProfilePage = () => {
   };
 
   const handleCancel = () => {
-    router.replace('/profile');
+    router.back();
   };
 
   if (isLoading) {
@@ -77,7 +75,7 @@ const EditProfilePage = () => {
   const avatarSrc =
     userData?.avatar && userData.avatar.trim() !== ''
       ? userData.avatar
-      : '/public/default-avatar.jpg';
+      : '/default-avatar.jpg';
 
   return (
     <main className={css.mainContent}>
@@ -101,23 +99,13 @@ const EditProfilePage = () => {
               id="username"
               name="username"
               type="text"
-              value={userData?.username ?? ''}
+              value={userData?.username ?? '-'}
               className={css.input}
               onChange={handleInputChange}
             />
           </div>
 
-          <div className={css.usernameWrapper}>
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={userData?.email ?? ''}
-              className={css.input}
-              onChange={handleInputChange}
-            />
-          </div>
+          <p>Email: {userData?.email ?? '-'}</p>
 
           <div className={css.actions}>
             <button

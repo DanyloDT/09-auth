@@ -14,13 +14,12 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  // metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
   title: 'NoteHub',
   description: 'Manage your notes easily with NoteHub app',
   openGraph: {
     title: 'NoteHub',
     description: 'Manage your notes easily with NoteHub app',
-    url: 'https://your-site.com',
+    url: `${process.env.NEXT_PUBLIC_API_URL}`,
     images: [
       {
         url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',

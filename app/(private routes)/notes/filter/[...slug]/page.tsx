@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `Notes filtered by ${filter}`,
       description: `Viewing notes filtered by ${filter}`,
-      url: `${process.env.NEXT_PUBLIC_API_URL}/notes/filter/${filter}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}notes/filter/${filter}`,
       images: [
         {
           url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
@@ -35,10 +35,6 @@ const NotesByCategory = async ({ params }: Props) => {
   const { slug } = await params;
   const queryClient = new QueryClient();
   const tag = slug[0] === 'all' ? undefined : slug[0];
-
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-  console.log(baseUrl);
 
   await queryClient.prefetchQuery({
     queryKey: ['notes', 1, '', tag],

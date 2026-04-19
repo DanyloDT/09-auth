@@ -1,5 +1,3 @@
-import { fetchNoteById } from '@/lib/api/clientApi';
-
 import NoteDetails from './NoteDetails.client';
 import {
   dehydrate,
@@ -22,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: note.title,
       description: note.content.slice(0, 100),
-      url: `${process.env.NEXT_PUBLIC_API_URL}/notes/${id}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}notes/${id}`,
       images: [
         {
           url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
@@ -38,7 +36,7 @@ const NoteDetail = async ({ params }: Props) => {
 
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
-    queryFn: () => fetchNoteById(id),
+    queryFn: () => fetchNoteByIdServer(id),
   });
 
   return (
