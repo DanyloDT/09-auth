@@ -45,7 +45,7 @@ const EditProfilePage = () => {
     try {
       setIsSaving(true);
 
-      const updatedUser = await updateMe(userData);
+      const updatedUser = await updateMe({ username: userData });
 
       setUser(updatedUser);
       router.replace('/profile');
