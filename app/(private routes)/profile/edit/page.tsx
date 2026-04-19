@@ -9,7 +9,7 @@ import css from './EditProfilePage.module.css';
 
 const EditProfilePage = () => {
   const router = useRouter();
-  const [userData, setUserData] = useState<string | null>(null);
+  const [username, setUsername] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -20,8 +20,8 @@ const EditProfilePage = () => {
     const fetchMe = async () => {
       try {
         const res = await getMe();
-        setUserData(res.username);
         setUser(res);
+        setUsername(res.username ?? '');
       } catch (error) {
         console.error('Failed to load profile', error);
       } finally {
@@ -32,20 +32,22 @@ const EditProfilePage = () => {
   }, [setUser]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    setUserData(value);
+    setUsername(e.target.value);
   };
 
-  const handleSaveUser = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSaveUser = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     e.preventDefault();
 
-    if (!userData) return;
+    const trimmedUsername = username.trim();
+
+    if (!trimmedUsername) return;
 
     try {
       setIsSaving(true);
 
-      const updatedUser = await updateMe({ username: userData });
+      const updatedUser = await updateMe({ username: trimmedUsername });
 
       setUser(updatedUser);
       router.replace('/profile');
@@ -89,7 +91,7 @@ const EditProfilePage = () => {
               id="username"
               name="username"
               type="text"
-              value={userData ?? '-'}
+              value={username}
               className={css.input}
               onChange={handleInputChange}
             />
@@ -101,7 +103,7 @@ const EditProfilePage = () => {
             <button
               type="submit"
               className={css.saveButton}
-              disabled={!userData || isSaving}
+              disabled={!username.trim() || isSaving}
             >
               {isSaving ? 'Saving...' : 'Save'}
             </button>
